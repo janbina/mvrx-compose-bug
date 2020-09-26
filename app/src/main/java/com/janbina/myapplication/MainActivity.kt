@@ -3,11 +3,21 @@ package com.janbina.myapplication
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Text
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope.align
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.setContent
-import androidx.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.janbina.myapplication.ui.MyApplicationTheme
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +27,9 @@ class MainActivity : AppCompatActivity() {
             MyApplicationTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                    Column {
+                        RememberTextField()
+                    }
                 }
             }
         }
@@ -25,14 +37,12 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    MyApplicationTheme {
-        Greeting("Android")
-    }
+fun RememberTextField() {
+    val (text, setText) = remember { mutableStateOf("") }
+    OutlinedTextField(
+        modifier = Modifier.padding(16.dp).fillMaxWidth(),
+        label = { Text(text = "Standard text field") },
+        value = text,
+        onValueChange = setText
+    )
 }

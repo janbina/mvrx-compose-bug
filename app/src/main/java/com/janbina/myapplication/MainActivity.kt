@@ -22,19 +22,21 @@ class ViewModel(initialState: State) : MavericksViewModel<State>(initialState) {
     fun updateText(new: String) = setState { copy(text = new) }
 }
 
+@InternalMavericksApi
 class MainActivity : AppCompatActivity() {
 
-    private val viewModel: ViewModel by viewModel()
+//    private val viewModel: ViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             val (text, setText) = remember { mutableStateOf("") }
-            val state by viewModel.stateFlow.collectAsState(initial = State())
+//            val state by viewModel.stateFlow.collectAsState(initial = State())
 
             MyApplicationTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
+                    val (viewModel, state) = mavericksViewModelAndState<ViewModel, State>()
                     Column {
                         TextField("Standard text field", text, setText)
                         TextField("Mavericks backed text field", state.text) { viewModel.updateText(it) }
